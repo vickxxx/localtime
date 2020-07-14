@@ -26,7 +26,7 @@ func (t LocalTime) MarshalJSON() ([]byte, error) {
 }
 
 func (l LocalTime) String() string {
-	return time.Time(l).Format(localDateTimeFormat)
+	return time.Time(l).Format(timeFormat)
 }
 
 func (l LocalTime) Now() LocalTime {
@@ -38,7 +38,7 @@ func (l LocalTime) ParseTime(t time.Time) LocalTime {
 }
 
 func (j LocalTime) format() string {
-	return time.Time(j).Format(localDateTimeFormat)
+	return time.Time(j).Format(timeFormat)
 }
 
 func (j LocalTime) MarshalText() ([]byte, error) {
@@ -52,7 +52,7 @@ func (l *LocalTime) FromDB(b []byte) error {
 	}
 	var now time.Time
 	var err error
-	now, err = time.ParseInLocation(localDateTimeFormat, string(b), time.Local)
+	now, err = time.ParseInLocation(timeFormat, string(b), time.Local)
 	if nil == err {
 		*l = LocalTime(now)
 		return nil
@@ -80,12 +80,12 @@ func (l *LocalTime) ToDB() ([]byte, error) {
 	if nil == l {
 		return nil, nil
 	}
-	return []byte(time.Time(*l).Format(localDateTimeFormat)), nil
+	return []byte(time.Time(*l).Format(timeFormat)), nil
 }
 
 func (l *LocalTime) Value() (driver.Value, error) {
 	if nil == l {
 		return nil, nil
 	}
-	return time.Time(*l).Format(localDateTimeFormat), nil
+	return time.Time(*l).Format(timeFormat), nil
 }
