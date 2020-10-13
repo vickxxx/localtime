@@ -2,6 +2,7 @@ package localtime
 
 import (
 	"database/sql/driver"
+	"fmt"
 	"time"
 )
 
@@ -80,7 +81,9 @@ func (l *LocalTime) ToDB() ([]byte, error) {
 	if nil == l {
 		return nil, nil
 	}
-	return []byte(time.Time(*l).Format(timeFormat)), nil
+	dbStr := []byte(time.Time(*l).Format(timeFormat))
+	fmt.Println("Xxxxxx---", dbStr)
+	return dbStr, nil
 }
 
 func (l *LocalTime) Value() (driver.Value, error) {
