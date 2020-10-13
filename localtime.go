@@ -47,7 +47,7 @@ func (j LocalTime) MarshalText() ([]byte, error) {
 
 func (l *LocalTime) FromDB(b []byte) error {
 	if nil == b || len(b) == 0 {
-		l = nil
+		// l = nil
 		return nil
 	}
 	var now time.Time
@@ -57,11 +57,11 @@ func (l *LocalTime) FromDB(b []byte) error {
 		*l = LocalTime(now)
 		return nil
 	}
-	now, err = time.ParseInLocation("2006-01-02T15:04:05Z", string(b), time.Local)
-	if nil == err {
-		*l = LocalTime(now)
-		return nil
-	}
+	// now, err = time.ParseInLocation("2006-01-02T15:04:05Z", string(b), time.Local)
+	// if nil == err {
+	// 	*l = LocalTime(now)
+	// 	return nil
+	// }
 	// panic("自己定义个layout日期格式处理一下数据库里面的日期型数据解析!")
 	return err
 }
