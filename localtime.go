@@ -2,7 +2,6 @@ package localtime
 
 import (
 	"database/sql/driver"
-	"fmt"
 	"time"
 )
 
@@ -10,6 +9,8 @@ type LocalTime time.Time
 
 const (
 	timeFormat = "2006-01-02 15:04:05"
+	ZeroTime0  = "0000-00-00 00:00:00"
+	ZeroTime1  = "0001-01-01 00:00:00"
 )
 
 func (t *LocalTime) UnmarshalJSON(data []byte) (err error) {
@@ -44,6 +45,13 @@ func (j LocalTime) format() string {
 
 func (j LocalTime) MarshalText() ([]byte, error) {
 	return []byte(j.format()), nil
+}
+
+func (j LocalTime) IsZero() bool {
+	if j.format() == ZeroTime0 || j.format() == ZeroTime1 {
+		return true
+	}
+	return false
 }
 
 func (l *LocalTime) FromDB(b []byte) error {
@@ -82,7 +90,6 @@ func (l *LocalTime) ToDB() ([]byte, error) {
 		return nil, nil
 	}
 	dbStr := []byte(time.Time(*l).Format(timeFormat))
-	fmt.Println("Xxxxxx---", dbStr)
 	return dbStr, nil
 }
 
